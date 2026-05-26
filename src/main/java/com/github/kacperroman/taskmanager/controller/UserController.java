@@ -1,21 +1,31 @@
 package com.github.kacperroman.taskmanager.controller;
 
 import com.github.kacperroman.taskmanager.model.User;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.github.kacperroman.taskmanager.service.UserService;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class UserController {
-    @GetMapping("/users")
-    public List<User> getUsers(){
-        List<User> users = new ArrayList<>();
-        users.add(new User(1, "user1", "password1", "user1@abc.com"));
-        users.add(new User(2, "user2", "password1", "user2@abc.com"));
-        users.add(new User(3, "user3", "password1", "user3@abc.com"));
+@RequestMapping("/users")
+public class UserController // REQUEST - zadania - odbieram zadania
+{
 
-        return users;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping
+    public List<User> getUsers() {
+        return userService.getUsers();
+    }
+
+    @PostMapping
+    public User addUser(@RequestBody User user) {
+
+        return userService.addUser(user);
     }
 }
