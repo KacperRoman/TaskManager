@@ -1,6 +1,7 @@
 package com.github.kacperroman.taskmanager.model;
 
 import jakarta.annotation.Nullable;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,9 +9,12 @@ import jakarta.persistence.*;
 
 import java.util.Collection;
 import java.util.List;
-
+@Entity
+@Table(name = "users")
 public class User implements UserDetails {
+    @Column(unique = true)
     private String username;
+    @Setter
     private String password;
     private String email;
     @Id
@@ -26,6 +30,10 @@ public class User implements UserDetails {
         this.email = email;
     }
 
+    public User() {
+
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
@@ -33,11 +41,12 @@ public class User implements UserDetails {
 
     @Override
     public @Nullable String getPassword() {
-        return "";
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return username;
     }
+
 }
