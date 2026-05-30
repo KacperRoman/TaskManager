@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Moje Zadania</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/digitallytailored/classless@latest/classless.min.css">
+</head>
+<body>
+<h1>Moje Zadania</h1>
+
+<!-- Lista zadań -->
+<ul>
+    <li th:each="task : ${tasks}">
+        <span th:text="${task.title}"></span> -
+        <span th:text="${task.description}"></span>
+        <form th:action="@{/tasks/delete/{taskId}(taskId=${task.id})}" method="post" style="display:inline;">
+            <button type="submit">Usuń</button>
+        </form>
+    </li>
+</ul>
+<p th:if="${#lists.isEmpty(tasks)}">Brak zadań!</p>
+
+<!-- Formularz dodawania zadania -->
+<h2>Dodaj Nowe Zadanie</h2>
+<form th:action="@{/tasks/add}" th:object="${newTask}" method="post">
+    <label>Tytuł: <input type="text" th:field="*{title}"></label><br>
+    <label>Opis: <input type="text" th:field="*{description}"></label><br>
+    <button type="submit">Dodaj Zadanie</button>
+</form>
+
+<!-- Wylogowanie -->
+
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Wyloguj</button>
+</form>
+
+</body>
+</html>

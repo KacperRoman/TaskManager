@@ -21,9 +21,13 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorizeHttpRequests ->
                 authorizeHttpRequests
                         .requestMatchers("/users/**").hasRole("ADMIN")
+                        .requestMatchers("/tasks/**").hasAnyRole("USER","ADMIN")
                         .anyRequest().permitAll()
-        ).formLogin(form->form.loginPage("/login").permitAll());
+        ).formLogin(form->
+                form.loginPage("/login")
+                .defaultSuccessUrl("/tasks").permitAll());
             return http.build();
     }
+
 
 }
