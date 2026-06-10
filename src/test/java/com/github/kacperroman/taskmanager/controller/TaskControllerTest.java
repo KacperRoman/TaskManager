@@ -59,4 +59,5 @@ class TaskControllerTest {
 
         verify(taskService).deleteTask(10, user);
     }
+
 }
